@@ -15,12 +15,16 @@ npm install @adkit.so/meta-pixel
 ```typescript
 import META from '@adkit.so/meta-pixel';
 
-// Initialize with a single pixel ID
 META.init({
     pixelIds: 'YOUR_PIXEL_ID',
 });
+```
 
-// Or initialize with options 
+Or with options:
+
+```typescript
+import META from '@adkit.so/meta-pixel';
+
 META.init({
     pixelIds: ['PIXEL_ID_1', 'PIXEL_ID_2'], // To load multiple pixels
     autoTrackPageView: true, // default: true
