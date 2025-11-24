@@ -13,7 +13,6 @@ npm install @adkit.so/meta-pixel
 ### Basic Setup
 
 ```typescript
-// Option 1: Default import
 import META from '@adkit.so/meta-pixel';
 
 // Initialize with a single pixel ID
