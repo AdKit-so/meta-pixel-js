@@ -16,17 +16,14 @@ npm install @adkit.so/meta-pixel
 // Option 1: Default import
 import META from '@adkit.so/meta-pixel';
 
-// Option 2: Named import
-import { META } from '@adkit.so/meta-pixel';
-
 // Initialize with a single pixel ID
 META.init({
     pixelIds: 'YOUR_PIXEL_ID',
 });
 
-// Or initialize with multiple pixel IDs
+// Or initialize with options 
 META.init({
-    pixelIds: ['PIXEL_ID_1', 'PIXEL_ID_2'],
+    pixelIds: ['PIXEL_ID_1', 'PIXEL_ID_2'], // To load multiple pixels
     autoTrackPageView: true, // default: true
     debug: true, // Enable styled console logs
     enableLocalhost: true, // Allow tracking on localhost for testing (default: false)
@@ -61,14 +58,15 @@ META.trackCustom('CustomEventName', {
 
 ```typescript
 // With event deduplication
-META.track('Purchase', 
+META.track(
+    'Purchase',
     {
         value: 99.99,
         currency: 'USD',
     },
     {
         eventID: 'unique-event-id-123',
-    }
+    },
 );
 
 // Check if pixel is loaded
@@ -91,18 +89,20 @@ customPixel.track('Lead');
 Initialize the Meta Pixel with configuration.
 
 **Config Options:**
-- `pixelIds` (required): Single pixel ID string or array of pixel IDs
-- `autoTrackPageView` (optional): Whether to track PageView on initialization (default: `true`)
-- `debug` (optional): Enable styled debug logging in console (default: `false`)
-- `enableLocalhost` (optional): Enable tracking on localhost (default: `false`)
+
+-   `pixelIds` (required): Single pixel ID string or array of pixel IDs
+-   `autoTrackPageView` (optional): Whether to track PageView on initialization (default: `true`)
+-   `debug` (optional): Enable styled debug logging in console (default: `false`)
+-   `enableLocalhost` (optional): Enable tracking on localhost (default: `false`)
 
 **Debug Mode:**
 
 When `debug: true`, you'll see styled console logs with background colors and white text:
-- 🔵 **Info** (blue background): Initialization and tracking events
-- ✅ **Success** (green background): Successful initialization
-- ⚠️ **Warning** (orange background): Warnings and errors
-- Example: **[Meta Pixel]** Initializing Meta Pixel...
+
+-   🔵 **Info** (blue background): Initialization and tracking events
+-   ✅ **Success** (green background): Successful initialization
+-   ⚠️ **Warning** (orange background): Warnings and errors
+-   Example: **[Meta Pixel]** Initializing Meta Pixel...
 
 ### `META.track(event: StandardEvent | string, data?: EventData, eventData?: EventMetaData): void`
 
@@ -120,55 +120,48 @@ Check if the Meta Pixel script is loaded and ready.
 
 The following standard Facebook Pixel events are supported:
 
-- `AddPaymentInfo`
-- `AddToCart`
-- `AddToWishlist`
-- `CompleteRegistration`
-- `Contact`
-- `CustomizeProduct`
-- `Donate`
-- `FindLocation`
-- `InitiateCheckout`
-- `Lead`
-- `Purchase`
-- `Schedule`
-- `Search`
-- `StartTrial`
-- `SubmitApplication`
-- `Subscribe`
-- `ViewContent`
+-   `AddPaymentInfo`
+-   `AddToCart`
+-   `AddToWishlist`
+-   `CompleteRegistration`
+-   `Contact`
+-   `CustomizeProduct`
+-   `Donate`
+-   `FindLocation`
+-   `InitiateCheckout`
+-   `Lead`
+-   `Purchase`
+-   `Schedule`
+-   `Search`
+-   `StartTrial`
+-   `SubmitApplication`
+-   `Subscribe`
+-   `ViewContent`
 
 ## Event Data Parameters
 
 Common event data parameters:
 
-- `value`: The value of the event
-- `currency`: Currency code (e.g., 'USD')
-- `content_ids`: Array of product IDs/SKUs
-- `content_type`: 'product' or 'product_group'
-- `content_name`: Name of the page/product
-- `content_category`: Category of the page/product
-- `contents`: Array of `{ id, quantity }` objects
-- `num_items`: Number of items
-- `search_string`: Search query string
-- `status`: Registration status
-- `predicted_ltv`: Predicted lifetime value
+-   `value`: The value of the event
+-   `currency`: Currency code (e.g., 'USD')
+-   `content_ids`: Array of product IDs/SKUs
+-   `content_type`: 'product' or 'product_group'
+-   `content_name`: Name of the page/product
+-   `content_category`: Category of the page/product
+-   `contents`: Array of `{ id, quantity }` objects
+-   `num_items`: Number of items
+-   `search_string`: Search query string
+-   `status`: Registration status
+-   `predicted_ltv`: Predicted lifetime value
 
 ## TypeScript Support
 
 This package is written in TypeScript and includes full type definitions. All types are exported:
 
 ```typescript
-import type { 
-    StandardEvent, 
-    EventData, 
-    EventMetaData, 
-    MetaPixelConfig,
-    MetaPixelInterface 
-} from '@adkit.so/meta-pixel';
+import type { StandardEvent, EventData, EventMetaData, MetaPixelConfig, MetaPixelInterface } from '@adkit.so/meta-pixel';
 ```
 
 ## License
 
 MIT
-
