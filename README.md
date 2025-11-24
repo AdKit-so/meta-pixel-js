@@ -1,42 +1,80 @@
-# @adkit.so/meta-pixel
+# Meta Pixel (JS/TS)
 
-Platform-agnostic Meta Pixel tracking wrapper with full TypeScript support.
+[![npm version](https://img.shields.io/npm/v/@adkit.so/meta-pixel.svg)](https://www.npmjs.com/package/@adkit.so/meta-pixel)
+[![npm downloads](https://img.shields.io/npm/dm/@adkit.so/meta-pixel.svg)](https://www.npmjs.com/package/@adkit.so/meta-pixel)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-## Installation
+> The most powerful and developer-friendly Meta Pixel integration for JavaScript & TypeScript applications.
+
+A platform-agnostic wrapper for Meta Pixel that provides a seamless, type-safe experience with advanced features like event deduplication, multiple pixel support, and beautiful debug logging.
+
+## 📚 Table of Contents
+
+-   [Features](#-features)
+-   [Quick Start](#-quick-start)
+-   [Installation](#-installation)
+-   [Usage](#-usage)
+-   [Configuration](#%EF%B8%8F-configuration)
+-   [Standard Events](#-standard-events)
+-   [Event Data Parameters](#-event-data-parameters)
+-   [Advanced Usage](#-advanced-usage)
+-   [TypeScript Support](#-typescript-support)
+-   [Troubleshooting](#-troubleshooting)
+-   [Official Documentation](#-official-documentation)
+-   [License](#-license)
+
+## ✨ Features
+
+-   ✅ **Typescript Support** - Full TypeScript support with autocomplete for all official events and parameters
+-   🎯 **Custom Events Support** - Track custom events with full type safety and flexible data structures
+-   🚦 **Event Deduplication** - Support for preventing duplicate events with event IDs
+-   🔌 **Multiple Pixels Support** - Load and manage multiple pixel IDs effortlessly
+-   🐛 **Debug Mode** - Beautiful styled console logs for development and debugging
+-   🏠 **Localhost Support** - Easy configuration to enable/disable tracking on localhost
+
+## ⚡ Quick Start
 
 ```bash
 npm install @adkit.so/meta-pixel
 ```
 
-## Usage
-
-### Basic Setup
-
 ```typescript
 import META from '@adkit.so/meta-pixel';
 
-META.init({
-    pixelIds: 'YOUR_PIXEL_ID',
-});
+// 1. Initialize
+META.init({ pixelIds: 'YOUR_PIXEL_ID' });
+
+// 2. Track events
+META.track('Purchase', { value: 99.99, currency: 'USD' });
 ```
 
-Or with options:
+That's it! 🎉
+
+## 📦 Installation
+
+```bash
+npm install @adkit.so/meta-pixel
+```
+
+## 💡 Usage
+
+### Basic Initialization
+
+Initialize the pixel as early as possible in your application entry point (e.g., `main.ts`, `App.jsx`, `index.js`).
 
 ```typescript
 import META from '@adkit.so/meta-pixel';
 
 META.init({
-    pixelIds: ['PIXEL_ID_1', 'PIXEL_ID_2'], // To load multiple pixels
+    pixelIds: '1234567890',
     autoTrackPageView: true, // default: true
-    debug: true, // Enable styled console logs
-    enableLocalhost: true, // Allow tracking on localhost for testing (default: false)
 });
 ```
 
 ### Tracking Events
 
 ```typescript
-// Track a standard event
+// Track standard events
 META.track('AddToCart', {
     value: 29.99,
     currency: 'USD',
@@ -44,127 +82,198 @@ META.track('AddToCart', {
     content_type: 'product',
 });
 
-// Track another standard event
-META.track('Purchase', {
-    value: 99.99,
-    currency: 'USD',
-    content_ids: ['ORDER_456'],
-});
-
-// Track a custom event (use trackCustom for better practice)
-META.trackCustom('CustomEventName', {
+// Track custom events
+META.trackCustom('MyCustomEvent', {
     custom_param: 'value',
 });
 ```
 
-### Advanced Usage
+### Multiple Instances
+
+If you need separate instances for different parts of your application (rare):
 
 ```typescript
-// With event deduplication
+import { createMetaPixel } from '@adkit.so/meta-pixel';
+
+const marketingPixel = createMetaPixel();
+marketingPixel.init({ pixelIds: 'MARKETING_ID' });
+
+const productPixel = createMetaPixel();
+productPixel.init({ pixelIds: 'PRODUCT_ID' });
+```
+
+## ⚙️ Configuration
+
+### Configuration Options
+
+| Option              | Type                 | Default | Description                                         |
+| ------------------- | -------------------- | ------- | --------------------------------------------------- |
+| `pixelIds`          | `string \| string[]` | `''`    | **Required.** Single pixel ID or array of pixel IDs |
+| `autoTrackPageView` | `boolean`            | `true`  | Automatically track PageView on initialization      |
+| `debug`             | `boolean`            | `false` | Enable styled console logs with background colors   |
+| `enableLocalhost`   | `boolean`            | `false` | Enable tracking on localhost (useful for testing)   |
+
+### Multiple Pixels Example
+
+```typescript
+META.init({
+    pixelIds: ['PIXEL_ID_1', 'PIXEL_ID_2', 'PIXEL_ID_3'],
+    debug: true,
+});
+```
+
+## 📊 Standard Events
+
+All Meta Pixel standard events are supported with full TypeScript autocomplete. These events help you track important actions on your website and optimize your ad campaigns.
+
+| Event                  | Description                   | Common Use Cases              |
+| ---------------------- | ----------------------------- | ----------------------------- |
+| `AddPaymentInfo`       | Payment info added            | Checkout flow                 |
+| `AddToCart`            | Item added to shopping cart   | E-commerce                    |
+| `AddToWishlist`        | Item added to wishlist        | E-commerce                    |
+| `CompleteRegistration` | User completed registration   | Sign-ups, account creation    |
+| `Contact`              | User contacted business       | Contact forms                 |
+| `CustomizeProduct`     | Product customization started | Product configurators         |
+| `Donate`               | Donation made                 | Non-profits                   |
+| `FindLocation`         | Location finder used          | Store locators                |
+| `InitiateCheckout`     | Checkout process started      | E-commerce funnels            |
+| `Lead`                 | Lead submitted                | Lead generation forms         |
+| `Purchase`             | Purchase completed            | Transaction confirmation      |
+| `Schedule`             | Appointment scheduled         | Booking systems               |
+| `Search`               | Search performed              | Site search                   |
+| `StartTrial`           | Trial started                 | SaaS applications             |
+| `SubmitApplication`    | Application submitted         | Job boards, loan applications |
+| `Subscribe`            | Subscription started          | Newsletters, subscriptions    |
+| `ViewContent`          | Content viewed                | Product pages, blog posts     |
+
+## 📋 Event Data Parameters
+
+All event parameters are optional but help improve ad targeting and conversion tracking.
+
+| Parameter          | Type                    | Description                          | Example                          |
+| ------------------ | ----------------------- | ------------------------------------ | -------------------------------- |
+| `value`            | `number`                | Monetary value of the event          | `99.99`                          |
+| `currency`         | `string`                | ISO 4217 currency code               | `'USD'`, `'EUR'`, `'GBP'`        |
+| `content_ids`      | `string[]`              | Product IDs or SKUs                  | `['SKU_123', 'SKU_456']`         |
+| `content_type`     | `string`                | Type of content                      | `'product'`, `'product_group'`   |
+| `content_name`     | `string`                | Name of page/product                 | `'Blue T-Shirt'`                 |
+| `content_category` | `string`                | Category of page/product             | `'Apparel'`, `'Electronics'`     |
+| `contents`         | `Array<{id, quantity}>` | Detailed product information         | `[{id: 'SKU_123', quantity: 2}]` |
+| `num_items`        | `number`                | Number of items                      | `3`                              |
+| `search_string`    | `string`                | Search query                         | `'running shoes'`                |
+| `status`           | `boolean`               | Registration/subscription status     | `true`                           |
+| `predicted_ltv`    | `number`                | Predicted lifetime value of customer | `450.00`                         |
+
+## 🚀 Advanced Usage
+
+### Event Deduplication
+
+Prevent duplicate event tracking by using unique event IDs. This is crucial when tracking conversions from both client and server (CAPI).
+
+```typescript
+const orderId = '12345';
+
 META.track(
     'Purchase',
     {
-        value: 99.99,
+        value: 299.99,
         currency: 'USD',
+        content_ids: ['SKU_123'],
     },
     {
-        eventID: 'unique-event-id-123',
+        eventID: `order-${orderId}`, // Unique Event ID
     },
 );
-
-// Check if pixel is loaded
-if (META.isLoaded()) {
-    META.track('ViewContent');
-}
-
-// Create a separate instance
-import { createMetaPixel } from '@adkit.so/meta-pixel';
-
-const customPixel = createMetaPixel();
-customPixel.init({ pixelIds: 'ANOTHER_PIXEL_ID' });
-customPixel.track('Lead');
 ```
 
-## API
+### Check if Pixel is Loaded
 
-### `META.init(config: MetaPixelConfig): void`
-
-Initialize the Meta Pixel with configuration.
-
-**Config Options:**
-
--   `pixelIds` (required): Single pixel ID string or array of pixel IDs
--   `autoTrackPageView` (optional): Whether to track PageView on initialization (default: `true`)
--   `debug` (optional): Enable styled debug logging in console (default: `false`)
--   `enableLocalhost` (optional): Enable tracking on localhost (default: `false`)
-
-**Debug Mode:**
-
-When `debug: true`, you'll see styled console logs with background colors and white text:
-
--   🔵 **Info** (blue background): Initialization and tracking events
--   ✅ **Success** (green background): Successful initialization
--   ⚠️ **Warning** (orange background): Warnings and errors
--   Example: **[Meta Pixel]** Initializing Meta Pixel...
-
-### `META.track(event: StandardEvent | string, data?: EventData, eventData?: EventMetaData): void`
-
-Track a standard event. If you pass a custom event name, it will still work but show a warning recommending to use `trackCustom()` instead.
-
-### `META.trackCustom(event: string, data?: EventData, eventData?: EventMetaData): void`
-
-Explicitly track a custom event.
-
-### `META.isLoaded(): boolean`
-
-Check if the Meta Pixel script is loaded and ready.
-
-## Standard Events
-
-The following standard Facebook Pixel events are supported:
-
--   `AddPaymentInfo`
--   `AddToCart`
--   `AddToWishlist`
--   `CompleteRegistration`
--   `Contact`
--   `CustomizeProduct`
--   `Donate`
--   `FindLocation`
--   `InitiateCheckout`
--   `Lead`
--   `Purchase`
--   `Schedule`
--   `Search`
--   `StartTrial`
--   `SubmitApplication`
--   `Subscribe`
--   `ViewContent`
-
-## Event Data Parameters
-
-Common event data parameters:
-
--   `value`: The value of the event
--   `currency`: Currency code (e.g., 'USD')
--   `content_ids`: Array of product IDs/SKUs
--   `content_type`: 'product' or 'product_group'
--   `content_name`: Name of the page/product
--   `content_category`: Category of the page/product
--   `contents`: Array of `{ id, quantity }` objects
--   `num_items`: Number of items
--   `search_string`: Search query string
--   `status`: Registration status
--   `predicted_ltv`: Predicted lifetime value
-
-## TypeScript Support
-
-This package is written in TypeScript and includes full type definitions. All types are exported:
+Useful if you need to conditionally run logic based on whether the pixel script has loaded.
 
 ```typescript
-import type { StandardEvent, EventData, EventMetaData, MetaPixelConfig, MetaPixelInterface } from '@adkit.so/meta-pixel';
+if (META.isLoaded()) {
+    META.track('Purchase', { value: 99.99, currency: 'USD' });
+} else {
+    console.log('Pixel not loaded yet');
+}
 ```
 
-## License
+### Debug Mode
+
+When `debug: true` is passed to `init()`, you'll see beautiful styled console logs:
+
+-   🔵 **[Meta Pixel]** Info messages (blue background)
+-   ✅ **[Meta Pixel]** Success messages (green background)
+-   ⚠️ **[Meta Pixel]** Warning messages (orange background)
+
+```typescript
+META.init({
+    pixelIds: 'YOUR_ID',
+    debug: true,
+});
+```
+
+## 📝 TypeScript Support
+
+This package is written in TypeScript and bundles type definitions.
+
+```typescript
+import type { StandardEvent, EventData, MetaPixelConfig } from '@adkit.so/meta-pixel';
+
+const config: MetaPixelConfig = {
+    pixelIds: '123',
+};
+
+const eventData: EventData = {
+    value: 100,
+    currency: 'USD',
+};
+```
+
+## ❓ Troubleshooting
+
+### Pixel not loading?
+
+1. **Check your pixel ID** - Make sure it's correct in your config
+2. **Enable debug mode** - Set `debug: true` in `init()` to see detailed logs
+3. **Check browser console** - Look for errors or warnings
+4. **Check Ad Blockers** - Ad blockers often block the Meta Pixel script
+5. **Enable on localhost** - Set `enableLocalhost: true` if testing locally
+
+### Events not showing in Meta Events Manager?
+
+-   **Wait a few minutes** - Events can take 5-20 minutes to appear
+-   **Check Test Events** - Use the Test Events tool in Meta Events Manager
+-   **Verify event names** - Standard events are case-sensitive
+
+## 📚 Official Documentation
+
+Learn more about Meta Pixel from official Facebook resources:
+
+-   **[Meta Pixel Reference](https://developers.facebook.com/docs/meta-pixel/reference/)** - Complete API reference
+-   **[Standard Events Guide](https://developers.facebook.com/docs/meta-pixel/implementation/conversion-tracking#standard-events)** - Detailed event documentation
+-   **[Object Properties Reference](https://developers.facebook.com/docs/meta-pixel/reference/#object-properties)** - All available event parameters
+-   **[Conversions API](https://developers.facebook.com/docs/marketing-api/conversions-api)** - Server-side event tracking
+-   **[Events Manager](https://www.facebook.com/events_manager2)** - Monitor your pixel events
+
+## 🔗 Platform Packages
+
+Using a framework? Check out our dedicated packages:
+
+-   [**Nuxt**](https://www.npmjs.com/package/@adkit.so/meta-pixel-nuxt) - `@adkit.so/meta-pixel-nuxt`
+-   **React** - Coming soon
+-   **Next.js** - Coming soon
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request. For major changes, please open an issue first to discuss what you would like to change.
+
+## 📄 License
 
 MIT
+
+---
+
+**Made with ❤️ by [Adkit](https://adkit.so)**
+
+If this package helped you, please consider giving it a ⭐️ on [GitHub](https://github.com/adkit-so/meta-pixel-js)!
