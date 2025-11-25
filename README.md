@@ -146,6 +146,8 @@ All Meta Pixel standard events are supported with full TypeScript autocomplete. 
 | `Subscribe`            | Subscription started          | Newsletters, subscriptions    |
 | `ViewContent`          | Content viewed                | Product pages, blog posts     |
 
+You can find the official list of standard events [here](https://developers.facebook.com/docs/meta-pixel/reference/#standard-events).
+
 ## 📋 Event Data Parameters
 
 All event parameters are optional but help improve ad targeting and conversion tracking.
@@ -163,6 +165,8 @@ All event parameters are optional but help improve ad targeting and conversion t
 | `search_string`    | `string`                | Search query                         | `'running shoes'`                |
 | `status`           | `boolean`               | Registration/subscription status     | `true`                           |
 | `predicted_ltv`    | `number`                | Predicted lifetime value of customer | `450.00`                         |
+
+You can find the list of properties [here](https://developers.facebook.com/docs/meta-pixel/reference/#object-properties)
 
 ## 🚀 Advanced Usage
 
