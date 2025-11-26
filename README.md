@@ -265,8 +265,14 @@ Learn more about Meta Pixel from official Facebook resources:
 Using a framework? Check out our dedicated packages:
 
 -   [**Nuxt**](https://www.npmjs.com/package/@adkit.so/meta-pixel-nuxt) - `@adkit.so/meta-pixel-nuxt`
--   **React** - Coming soon
--   **Next.js** - Coming soon
+-   [**React**](https://www.npmjs.com/package/@adkit.so/meta-pixel-react) - `@adkit.so/meta-pixel-react`
+-   [**Next.js**](https://www.npmjs.com/package/@adkit.so/meta-pixel-next) - `@adkit.so/meta-pixel-next`
+
+## 📖 Full Guide
+
+For a complete step-by-step guide on installing and configuring Meta Pixel, check out our detailed tutorial:
+
+**[How to Install Meta Pixel](https://adkit.so/resources/how-to-install-meta-pixel)**
 
 ## 🤝 Contributing
 
@@ -280,4 +286,4 @@ MIT
 
 **Made with ❤️ by [Adkit](https://adkit.so)**
 
-If this package helped you, please consider giving it a ⭐️ on [GitHub](https://github.com/adkit-so/meta-pixel-js)!
+If this package helped you, please consider giving it a ⭐️ on [GitHub](https://github.com/AdKit-so/meta-pixel-js)!
